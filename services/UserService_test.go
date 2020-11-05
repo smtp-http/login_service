@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/vbansal/login_service/model"
+	"loginservice/model"
 )
 
 func TestUserService_SignupUser(t *testing.T) {

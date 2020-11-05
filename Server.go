@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/vbansal/login_service/config"
-	"github.com/vbansal/login_service/controller"
+	"loginservice/config"
+	"loginservice/controller"
 
-	_ "github.com/vbansal/login_service/docs"
+	_ "loginservice/docs"
 )
 
 // @title Login API

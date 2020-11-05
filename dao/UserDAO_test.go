@@ -3,7 +3,7 @@ package dao
 import (
 	"testing"
 
-	"github.com/vbansal/login_service/model"
+	"github.com/vbansal13/login_service/model"
 )
 
 func TestUserDAO_FindUser(t *testing.T) {

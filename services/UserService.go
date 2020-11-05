@@ -6,12 +6,12 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-	adapter "github.com/vbansal/login_service/adapter"
-	"github.com/vbansal/login_service/analytics"
-	"github.com/vbansal/login_service/config"
-	"github.com/vbansal/login_service/dao"
-	"github.com/vbansal/login_service/model"
 	"golang.org/x/crypto/bcrypt"
+	adapter "loginservice/adapter"
+	"loginservice/analytics"
+	"loginservice/config"
+	"loginservice/dao"
+	"loginservice/model"
 )
 
 //UserService data type

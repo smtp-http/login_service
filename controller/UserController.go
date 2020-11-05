@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/vbansal/login_service/model"
-	service "github.com/vbansal/login_service/services"
+	"loginservice/model"
+	service "loginservice/services"
 )
 
 //UserController structure

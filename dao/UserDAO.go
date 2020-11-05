@@ -4,8 +4,8 @@ import (
 	"context"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/vbansal/login_service/config"
-	"github.com/vbansal/login_service/model"
+	"github.com/vbansal13/login_service/config"
+	"github.com/vbansal13/login_service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
