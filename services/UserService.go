@@ -7,11 +7,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
-	adapter "loginservice/adapter"
-	"loginservice/analytics"
-	"loginservice/config"
-	"loginservice/dao"
-	"loginservice/model"
+	adapter "login_service/adapter"
+	"login_service/analytics"
+	"login_service/config"
+	"login_service/dao"
+	"login_service/model"
 )
 
 //UserService data type

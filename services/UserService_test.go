@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"loginservice/model"
+	"login_service/model"
 )
 
 func TestUserService_SignupUser(t *testing.T) {

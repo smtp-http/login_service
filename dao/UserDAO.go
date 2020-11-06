@@ -4,11 +4,11 @@ import (
 	"context"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/vbansal13/login_service/config"
-	"github.com/vbansal13/login_service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"login_service/config"
+	"login_service/model"
 )
 
 //UserDAO structure

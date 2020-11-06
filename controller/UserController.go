@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"loginservice/model"
-	service "loginservice/services"
+	"login_service/model"
+	service "login_service/services"
 )
 
 //UserController structure

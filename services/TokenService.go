@@ -5,7 +5,7 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"loginservice/config"
+	"login_service/config"
 )
 
 //TokenService data type

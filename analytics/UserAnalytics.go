@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/vbansal13/login_service/config"
 	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
+	"login_service/config"
 )
 
 //Analytics data type
