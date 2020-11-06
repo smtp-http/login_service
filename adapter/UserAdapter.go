@@ -1,6 +1,6 @@
 package adapter
 
-import "github.com/vbansal13/login_service/model"
+import "login_service/model"
 
 //UserAdapter data type
 type UserAdapter struct {
