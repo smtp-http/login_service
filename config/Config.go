@@ -60,7 +60,7 @@ func GetInstance() *Config {
 				SigningError:            "Unexpected signing method",
 			},
 			SigningSecret:                       "d5bHh9iQwWP4tJtGMJso44QpLyIyUPIKDmTky7DSzJiy8dTLoVltfWCXEqI2Xceb",
-			ServerPort:                          "8080",
+			ServerPort:                          "8088",
 			KafkaBootStrapServer:                "localhost",
 			KafkaLoginTopic:                     "login_service_topic",
 			DBServerURI:                         "mongodb://localhost:27017",
