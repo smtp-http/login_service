@@ -11,27 +11,120 @@ import (
 	"login_service/model"
 )
 
-//UserDAO structure
-type UserDAO struct {
+type UserDAO interface {
+	FindUser(username string) (*model.UserModel, error)
+	AddNewUser(user *model.UserModel) error
+	SaveUser(user *model.UserModel) error
+	UserNotFoundError(err error) bool
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//       use Mongo as DAO
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//UserDAOMongo structure
+type UserDAOMongo struct {
 	userDBName string
 	db         *mongo.Database
 }
 
-var instance *UserDAO
+var instance_mongo *UserDAOMongo
 
-//GetUserDAOInstance method for accessing singleton UserDAO instance
-func GetUserDAOInstance() *UserDAO {
+//GetUserDAOMongoinstance method for accessing singleton UserDAOMongo instance
+func GetUserDAOMongoinstance() *UserDAOMongo {
 
-	if instance == nil {
-		instance = &UserDAO{
+	if instance_mongo == nil {
+		instance_mongo = &UserDAOMongo{
 			userDBName: "users",
 		}
 	}
-	return instance
+	return instance_mongo
 }
+
+//FindUser finds a user with given username in the Database, will return error if user not found
+func (uDao *UserDAOMongo) FindUser(username string) (*model.UserModel, error) {
+	collection := uDao.db.Collection(uDao.userDBName)
+	var user model.UserModel
+	err := collection.FindOne(context.Background(), bson.D{{"username", username}}).Decode(&user)
+	return &user, err
+}
+
+//AddNewUser adds a new user to the Database
+func (uDao *UserDAOMongo) AddNewUser(user *model.UserModel) error {
+	collection := uDao.db.Collection(uDao.userDBName)
+
+	_, err := collection.InsertOne(context.Background(), user)
+	return err
+}
+
+//SaveUser saves a user to the Databs
+func (uDao *UserDAOMongo) SaveUser(user *model.UserModel) error {
+	collection := uDao.db.Collection(uDao.userDBName)
+	update := bson.M{
+		"$set": user,
+	}
+	doc := collection.FindOneAndUpdate(context.Background(), bson.D{{"username", user.Username}}, update, nil)
+	return doc.Err()
+}
+
+//UserNotFoundError convenience method for checking if given error is no user found user.
+func (uDao *UserDAOMongo) UserNotFoundError(err error) bool {
+	return err.Error() == "mongo: no documents in result"
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//       use MYSQL as DAO
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//UserDAOMysql structure
+type UserDAOMysql struct {
+	userDBName string
+}
+
+var instance_mysql *UserDAOMysql
+
+//GetUserDAOMysqlinstance method for accessing singleton UserDAOMysql instance
+func GetUserDAOMysqlInstance() *UserDAOMysql {
+
+	if instance_mysql == nil {
+		instance_mysql = &UserDAOMysql{
+			userDBName: "users",
+		}
+	}
+	return instance_mysql
+}
+
+//FindUser finds a user with given username in the Database, will return error if user not found
+func (uDao *UserDAOMysql) FindUser(username string) (*model.UserModel, error) {
+
+	var user model.UserModel
+
+	return &user, nil
+}
+
+//AddNewUser adds a new user to the Database
+func (uDao *UserDAOMysql) AddNewUser(user *model.UserModel) error {
+
+	return nil
+}
+
+//SaveUser saves a user to the Databs
+func (uDao *UserDAOMysql) SaveUser(user *model.UserModel) error {
+
+	return nil
+}
+
+//UserNotFoundError convenience method for checking if given error is no user found user.
+func (uDao *UserDAOMysql) UserNotFoundError(err error) bool {
+	return err.Error() == "mysql: no documents in result"
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  init
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Called only once during package inititalization
 func init() {
+
 	client, err := mongo.NewClient(options.Client().ApplyURI(config.GetInstance().DBServerURI))
 	if err != nil {
 		log.Fatal(err)
@@ -43,38 +136,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	userDAO := GetUserDAOInstance()
-	userDAO.db = client.Database("LoginService")
+	UserDAOMongo := GetUserDAOMongoinstance()
+	UserDAOMongo.db = client.Database("LoginService")
 
-}
-
-//FindUser finds a user with given username in the Database, will return error if user not found
-func (uDao *UserDAO) FindUser(username string) (*model.UserModel, error) {
-	collection := uDao.db.Collection(uDao.userDBName)
-	var user model.UserModel
-	err := collection.FindOne(context.Background(), bson.D{{"username", username}}).Decode(&user)
-	return &user, err
-}
-
-//AddNewUser adds a new user to the Database
-func (uDao *UserDAO) AddNewUser(user *model.UserModel) error {
-	collection := uDao.db.Collection(uDao.userDBName)
-
-	_, err := collection.InsertOne(context.Background(), user)
-	return err
-}
-
-//SaveUser saves a user to the Databs
-func (uDao *UserDAO) SaveUser(user *model.UserModel) error {
-	collection := uDao.db.Collection(uDao.userDBName)
-	update := bson.M{
-		"$set": user,
-	}
-	doc := collection.FindOneAndUpdate(context.Background(), bson.D{{"username", user.Username}}, update, nil)
-	return doc.Err()
-}
-
-//UserNotFoundError convenience method for checking if given error is no user found user.
-func (uDao *UserDAO) UserNotFoundError(err error) bool {
-	return err.Error() == "mongo: no documents in result"
 }

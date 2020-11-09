@@ -32,7 +32,7 @@ func (uService *UserService) SignupUser(user *model.UserRegisterRequestModel) (*
 		return nil, http.StatusBadRequest, err
 	}
 
-	userDAO := dao.GetUserDAOInstance()
+	userDAO := dao.GetUserDAOMysqlInstance()
 
 	_, err = userDAO.FindUser(user.Username)
 
@@ -72,7 +72,7 @@ func (uService *UserService) LoginUser(user *model.UserRegisterRequestModel) (*m
 		return nil, http.StatusBadRequest, err
 	}
 
-	userDAO := dao.GetUserDAOInstance()
+	userDAO := dao.GetUserDAOMysqlInstance()
 	userAnalytics := analytics.NewAnalytics()
 	tUser, err := userDAO.FindUser(user.Username)
 	appConfig := config.GetInstance()
@@ -126,7 +126,7 @@ func (uService *UserService) GetUserProfile(accessTokenString string) (*model.Us
 		return nil, http.StatusUnauthorized, err
 	}
 
-	userDAO := dao.GetUserDAOInstance()
+	userDAO := dao.GetUserDAOMysqlInstance()
 	tUser, uError := userDAO.FindUser(username)
 	if uError != nil {
 		return nil, http.StatusBadRequest, uError
@@ -173,7 +173,7 @@ func (uService *UserService) saveLoginAttempt(successful bool, user *model.UserM
 			user.AccountLocked = true
 		}
 	}
-	userDAO := dao.GetUserDAOInstance()
+	userDAO := dao.GetUserDAOMysqlInstance()
 	err := userDAO.SaveUser(user)
 	if err != nil {
 		log.Warning(err.Error())
